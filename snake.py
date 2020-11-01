@@ -19,9 +19,9 @@ shift_left = -10
 shift_right = +10
 largeText = pygame.font.Font('freesansbold.ttf',90)
 smallText = pygame.font.Font('freesansbold.ttf',24)
-temp = namedtuple('point',['x','y'],verbose = False)
-blocks = namedtuple('blocks',['sblock','gblock','nblock'],verbose = False)
-mode = namedtuple('mode',['status','reserved'],verbose = False)
+temp = namedtuple('point',['x','y'])
+blocks = namedtuple('blocks',['sblock','gblock','nblock'])
+mode = namedtuple('mode',['status','reserved'])
 def message_display(text,font,x,y):
 	textSurface = font.render(text, True, white)
 	textRect = textSurface.get_rect()
@@ -66,7 +66,7 @@ def draw_snake(head,mid,tail,snake_info):
 	pygame.display.update()
 
 def rules(event,head,mid,tail,blocks,snake_info):
-	direct = namedtuple('move',['x','y'],verbose = False)
+	direct = namedtuple('move',['x','y'])
 	back_up =((mid[0].x == head.x) and (mid[0].y == head.y+shift_up))
 	back_down =((mid[0].x == head.x) and (mid[0].y == head.y+shift_down))
 	back_right =((mid[0].x == head.x+shift_right) and (mid[0].y == head.y))
@@ -158,13 +158,14 @@ def renderdisplay(head,mid,tail,blocks,snake_info):
 	draw_blocks(blocks.sblock,red)
 	draw_blocks(blocks.gblock,green)
 	draw_blocks(blocks.nblock,blue)
-
+	pygame.event.set_blocked(pygame.MOUSEMOTION)
+	pygame.event.set_blocked(pygame.WINDOWEVENT)
 def eventhandler(current_head,current_mid,current_tail,blocks,snake_info,lastevent_type,lastevent):	
 		lastevent = lastevent
 		gameDisplay.fill(black)		
 		head,mid,tail = current_head,current_mid,current_tail
 		#event handler - grabs all events
-		for event in pygame.event.get():
+		for event in pygame.event.get():			
 			lastevent = event
 			#quiting the game 
 			if event.type == pygame.QUIT:
